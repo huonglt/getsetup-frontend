@@ -1,6 +1,6 @@
 export type AvailableTime = {
-  from: Date
-  to: Date
+  from: Date | null
+  to: Date | null
 }
 
 export type GuideAvailability = {
