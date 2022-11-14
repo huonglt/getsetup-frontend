@@ -1,0 +1,16 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+#root {
+  display: flex;
+}
+.App {
+  width: 100vw;
+  display: flex;
+  height: 100vh;
+  overflow: scroll;
+  padding: 30px;
+}
