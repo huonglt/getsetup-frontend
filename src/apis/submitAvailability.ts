@@ -1,7 +1,5 @@
 import { GuideAvailability } from '../types/guide'
-
-export const POST_GUIDE_AVAILABILITY =
-  'http://localhost:3000/guide/availability'
+import { POST_GUIDE_AVAILABILITY } from './endpoints'
 
 /**
 /**
@@ -11,9 +9,7 @@ export const submitAvailability = async (
   guideAvailability: GuideAvailability
 ) => {
   let err: Error | null = null
-  console.log(
-    `submit guide availability: data = ${JSON.stringify(guideAvailability)}`
-  )
+
   try {
     const response = await fetch(POST_GUIDE_AVAILABILITY, {
       method: 'POST',

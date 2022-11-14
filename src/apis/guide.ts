@@ -1,8 +1,8 @@
-export const GET_GUIDE_AVAILABILITY = 'http://localhost:3000/guide'
-
 /**
  * Method to retrieve teaching availabiltiy for a guide in a given week
  */
+
+import { GET_GUIDE_AVAILABILITY } from './endpoints'
 
 export const getGuideAvailability = async (
   userId: number,
@@ -10,7 +10,6 @@ export const getGuideAvailability = async (
 ): Promise<unknown | Error> => {
   let err: Error | null = null
   try {
-    console.log(`userId = ${userId}, weekNumber = ${weekNumber}`)
     const url = `${GET_GUIDE_AVAILABILITY}/${userId}/${weekNumber}`
     const response = await fetch(url, {
       method: 'GET'
