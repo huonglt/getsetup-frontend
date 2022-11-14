@@ -88,7 +88,7 @@ export const Availability = (props: Props) => {
         </Button>
       </Box>
       {!isError && !isLoading && data === null && (
-        <div>No teaching availability data found</div>
+        <Typography>No teaching availability data found</Typography>
       )}
       {!isError && !isLoading && data && (
         <>

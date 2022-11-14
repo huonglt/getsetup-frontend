@@ -1,10 +1,9 @@
-import { Button, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { getGuideAvailability } from '../apis/guide'
 import { submitAvailability } from '../apis/submitAvailability'
 import { useApi } from '../hooks/useApi'
-import { AvailableTime, GuideAvailability } from '../types/guide'
-import { AvailabilityRow } from './AvailabilityRow'
+import { GuideAvailability } from '../types/guide'
 import { AvailabilityRows } from './AvailabilityRows'
 
 type Props = {

@@ -5,7 +5,8 @@ import {
   MenuItem,
   SelectChangeEvent,
   TextField,
-  Button
+  Button,
+  Box
 } from '@mui/material'
 import React, { useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
@@ -77,7 +78,7 @@ export const AvailabilityRow = (props: Props) => {
   }
 
   return (
-    <div className="rowContainer">
+    <Box className="rowContainer">
       <FormControl className="fullWidth">
         <InputLabel>Select day</InputLabel>
         <Select label="Select day" value={day} onChange={handleDayChange}>
@@ -103,6 +104,6 @@ export const AvailabilityRow = (props: Props) => {
         />
       </LocalizationProvider>
       <Button onClick={handleRemove}>Remove</Button>
-    </div>
+    </Box>
   )
 }

@@ -88,7 +88,7 @@ export const AvailabilityRows = (props: Props) => {
             />
           )
         })}
-        <div className="buttonContainer">
+        <Box className="buttonContainer">
           <Button
             variant="outlined"
             onClick={addAvailability}
@@ -103,7 +103,7 @@ export const AvailabilityRows = (props: Props) => {
           >
             Submit availability
           </Button>
-        </div>
+        </Box>
       </Box>
     </FormProvider>
   )
