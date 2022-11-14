@@ -1,6 +1,5 @@
 import {
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -8,13 +7,13 @@ import {
   Typography,
   Button
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useFieldArray } from 'react-hook-form'
 import { getGuideAvailability } from '../apis/guide'
 import { useApi } from '../hooks/useApi'
 
 import { GuideAvailability } from '../types/guide'
 import { weekData } from '../util/util'
-import { AvailabilityCalendar } from './AvailabilityCalendar'
 
 const initialData = {
   userId: 1,
@@ -141,18 +140,23 @@ export const Availability = (props: Props) => {
             Teaching Availability for userId {data.userId} for the week #
             {data.weekNumber}
           </Typography>
-          {data.availability.map((timeslot, index) => (
-            <Typography key={index}>
-              {new Date(timeslot.from).toDateString()}{' '}
-              {new Date(timeslot.from).toLocaleTimeString('en-NZ', {
-                timeStyle: 'short'
-              })}
-              {' - '}
-              {new Date(timeslot.to).toLocaleTimeString('en-NZ', {
-                timeStyle: 'short'
-              })}
-            </Typography>
-          ))}
+          {data.availability.map((timeslot, index) => {
+            if (!timeslot.from || !timeslot.to) {
+              return null
+            }
+            return (
+              <Typography key={index}>
+                {new Date(timeslot.from).toDateString()}{' '}
+                {new Date(timeslot.from).toLocaleTimeString('en-NZ', {
+                  timeStyle: 'short'
+                })}
+                {' - '}
+                {new Date(timeslot.to).toLocaleTimeString('en-NZ', {
+                  timeStyle: 'short'
+                })}
+              </Typography>
+            )
+          })}
         </>
       )}
       <Typography>Calendar</Typography>

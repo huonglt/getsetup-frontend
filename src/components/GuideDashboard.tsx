@@ -1,7 +1,5 @@
-import { Box, Button, Fab } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Availability } from './Availability'
-import { BookTime } from './BookTime'
 import { UpdateAvailability } from './UpdateAvailability'
 
 export const GuideDashboard = () => {
