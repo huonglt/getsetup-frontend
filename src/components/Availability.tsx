@@ -17,6 +17,7 @@ import {
   guideList,
   weekData
 } from '../util/util'
+import '../css/availability.css'
 
 type Props = {
   onClickSubmit: (userId: number, weekNumber: number) => void
@@ -49,14 +50,7 @@ export const Availability = (props: Props) => {
     }
   }
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'column',
-        gap: '8px'
-      }}
-    >
+    <div className="container">
       <Typography>Select guide:</Typography>
       <FormControl>
         <Select onChange={handleGuideChange} value={userId}>
@@ -77,25 +71,17 @@ export const Availability = (props: Props) => {
           ))}
         </Select>
       </FormControl>
-      <Box
-        style={{
-          display: 'flex',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '20px'
-        }}
-      >
+      <Box className="buttonContainer">
         <Button
           variant="outlined"
           onClick={handleRetrieveAvailability}
-          style={{ width: '300px' }}
+          className="button"
         >
           Retrieve Teaching Availability
         </Button>
         <Button
           variant="outlined"
-          style={{ width: '300px' }}
+          className="button"
           onClick={handleSubmitAvailability}
         >
           Update Teaching Availability
