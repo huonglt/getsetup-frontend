@@ -7,7 +7,7 @@ import {
   Typography,
   Button
 } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { getGuideAvailability } from '../apis/guide'
 import { useApi } from '../hooks/useApi'
 import { GuideAvailability } from '../types/guide'
@@ -20,40 +20,43 @@ import {
 import '../css/availability.css'
 
 type Props = {
-  onClickSubmit: (userId: number, weekNumber: number) => void
+  userId: number | null
+  weekNumber: number | null
+  goToUpdatePage: () => void
+  onUserIdChange: (userId: number) => void
+  onWeekNumberChange: (weekNumber: number) => void
 }
 export const Availability = (props: Props) => {
+  const {
+    userId,
+    weekNumber,
+    goToUpdatePage,
+    onUserIdChange,
+    onWeekNumberChange
+  } = props
   const {
     isLoading,
     isError,
     data,
     loadData: retrieveTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
-  const [userId, setUserId] = useState('')
-  const [weekNumber, setWeekNumber] = useState('')
 
   const handleGuideChange = (event: SelectChangeEvent) => {
-    setUserId(event.target.value as string)
+    onUserIdChange(Number(event.target.value))
   }
 
   const handleWeekChange = (event: SelectChangeEvent) => {
-    setWeekNumber(event.target.value as string)
+    onWeekNumberChange(Number(event.target.value))
   }
 
   const handleRetrieveAvailability = () => {
     retrieveTeachingAvailability(userId, weekNumber)
   }
-
-  const handleSubmitAvailability = () => {
-    if (userId && weekNumber) {
-      props.onClickSubmit(Number(userId), Number(weekNumber))
-    }
-  }
   return (
     <div className="container">
       <Typography>Select guide:</Typography>
       <FormControl>
-        <Select onChange={handleGuideChange} value={userId}>
+        <Select onChange={handleGuideChange} value={String(userId)}>
           {guideList.map((guide) => (
             <MenuItem value={guide.userId} key={guide.userId}>
               {guide.userName}
@@ -63,7 +66,7 @@ export const Availability = (props: Props) => {
       </FormControl>
       <Typography>Select week number:</Typography>
       <FormControl>
-        <Select value={weekNumber} onChange={handleWeekChange}>
+        <Select value={String(weekNumber)} onChange={handleWeekChange}>
           {weekData.map((week) => (
             <MenuItem value={week.weekNumber} key={week.weekNumber}>
               Week {week.weekNumber}: {formatMonToSun(week.monday, week.sunday)}
@@ -84,7 +87,7 @@ export const Availability = (props: Props) => {
           variant="contained"
           color="primary"
           className="button"
-          onClick={handleSubmitAvailability}
+          onClick={goToUpdatePage}
         >
           Update Teaching Availability
         </Button>
