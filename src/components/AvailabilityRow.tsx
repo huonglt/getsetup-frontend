@@ -14,12 +14,13 @@ import dayjs, { Dayjs } from 'dayjs'
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useFormContext } from 'react-hook-form'
+import { AvailableTime } from '../types/guide'
 type Props = {
   dateList: Date[]
   index: number
   onChange: (changedRow: any) => void
   onRemove: (index: number) => void
-  availability?: { from: Date | null; to: Date | null }
+  availability?: AvailableTime
 }
 export const AvailabilityRow = (props: Props) => {
   const { control, register, getValues, setValue, formState, clearErrors } =
@@ -27,7 +28,11 @@ export const AvailabilityRow = (props: Props) => {
 
   const { dateList, onChange, index, onRemove, availability } = props
 
-  const [day, setDay] = useState(availability?.from?.toDateString() ?? '')
+  const initialDay =
+    availability?.from && availability?.from?.toDateString
+      ? availability.from.toDateString()
+      : ''
+  const [day, setDay] = useState(initialDay)
 
   const handleDayChange = (event: SelectChangeEvent) => {
     setDay(event.target.value as string)
