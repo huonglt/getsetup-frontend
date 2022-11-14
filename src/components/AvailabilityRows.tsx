@@ -1,13 +1,15 @@
 import { Box, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
+import { submitAvailability } from '../apis/submitAvailability'
+import { useApi } from '../hooks/useApi'
+import { AvailableTime, GuideAvailability } from '../types/guide'
 import { AvailabilityRow } from './AvailabilityRow'
-type Row = {
-  from: Date | null
-  to: Date | null
-}
 type Props = {
-  rows: Row[] | undefined
+  userId: number
+  weekNumber: number
+  submitAvailability: (guideAvailability: GuideAvailability) => void
+  initialData: AvailableTime[] | undefined
 }
 const dateList = [
   new Date(2022, 10, 14),
@@ -20,23 +22,14 @@ const dateList = [
 ]
 
 type FormValues = {
-  availabilities: Row[]
+  availabilities: AvailableTime[]
 }
 
-const defaultValues = [
-  {
-    from: new Date(2022, 10, 14, 8, 0),
-    to: new Date(2022, 10, 14, 9, 0)
-  },
-  {
-    from: new Date(2022, 10, 15, 8, 0),
-    to: new Date(2022, 10, 15, 9, 0)
-  }
-]
 export const AvailabilityRows = (props: Props) => {
+  const { userId, weekNumber, initialData, submitAvailability } = props
   const useFormReturn = useForm<FormValues>({
     defaultValues: {
-      availabilities: defaultValues //[{ from: null, to: null }]
+      availabilities: initialData
     }
   })
 
@@ -58,12 +51,21 @@ export const AvailabilityRows = (props: Props) => {
   const removeAvailability = (index: number) => {
     remove(index)
   }
-  const updateAvailability = (index: number, changedAvailability: Row) => {
+  const updateAvailability = (
+    index: number,
+    changedAvailability: AvailableTime
+  ) => {
     update(index, changedAvailability)
   }
-  const subitAvailability = () => {
-    const data = getValues('availabilities')
-    console.log(`data = ${JSON.stringify(data)}`)
+  const handleSubmitAvailability = async () => {
+    const availability = getValues('availabilities')
+    const guideAvailability = {
+      userId,
+      weekNumber,
+      availability
+    }
+    console.log(`guideAvailability = ${JSON.stringify(guideAvailability)}`)
+    submitAvailability(guideAvailability)
   }
   return (
     <FormProvider {...useFormReturn}>
@@ -79,7 +81,7 @@ export const AvailabilityRows = (props: Props) => {
           const removeRow = () => {
             removeAvailability(index)
           }
-          const updateRow = (changedRow: Row) => {
+          const updateRow = (changedRow: AvailableTime) => {
             updateAvailability(index, changedRow)
           }
           const data = { from: availability.from, to: availability.to }
@@ -112,7 +114,7 @@ export const AvailabilityRows = (props: Props) => {
           </Button>
           <Button
             variant="outlined"
-            onClick={subitAvailability}
+            onClick={handleSubmitAvailability}
             style={{ width: '300px' }}
           >
             Submit availability
