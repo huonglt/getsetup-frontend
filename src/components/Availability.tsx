@@ -73,14 +73,16 @@ export const Availability = (props: Props) => {
       </FormControl>
       <Box className="buttonContainer">
         <Button
-          variant="outlined"
+          variant="contained"
+          color="secondary"
           onClick={handleRetrieveAvailability}
           className="button"
         >
           Retrieve Teaching Availability
         </Button>
         <Button
-          variant="outlined"
+          variant="contained"
+          color="primary"
           className="button"
           onClick={handleSubmitAvailability}
         >
