@@ -1,10 +1,10 @@
 import { Box, Button } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
-import { submitAvailability } from '../apis/submitAvailability'
-import { useApi } from '../hooks/useApi'
 import { AvailableTime, GuideAvailability } from '../types/guide'
 import { AvailabilityRow } from './AvailabilityRow'
+import '../css/availabilityRows.css'
+
 type Props = {
   userId: number
   weekNumber: number
@@ -64,19 +64,11 @@ export const AvailabilityRows = (props: Props) => {
       weekNumber,
       availability
     }
-    console.log(`guideAvailability = ${JSON.stringify(guideAvailability)}`)
     submitAvailability(guideAvailability)
   }
   return (
     <FormProvider {...useFormReturn}>
-      <Box
-        style={{
-          display: 'flex',
-          width: '100%',
-          flexDirection: 'column',
-          marginTop: '8px'
-        }}
-      >
+      <Box className="container">
         {fields.map((availability, index) => {
           const removeRow = () => {
             removeAvailability(index)
@@ -96,26 +88,18 @@ export const AvailabilityRows = (props: Props) => {
             />
           )
         })}
-        <div
-          style={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'center',
-            gap: '16px',
-            marginTop: '30px'
-          }}
-        >
+        <div className="buttonContainer">
           <Button
             variant="outlined"
             onClick={addAvailability}
-            style={{ width: '300px' }}
+            className="button"
           >
             Add availability
           </Button>
           <Button
             variant="outlined"
             onClick={handleSubmitAvailability}
-            style={{ width: '300px' }}
+            className="button"
           >
             Submit availability
           </Button>
