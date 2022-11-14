@@ -4,17 +4,17 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  useThemeProps,
   TextField,
   Button
 } from '@mui/material'
 import React, { useState } from 'react'
-
 import dayjs, { Dayjs } from 'dayjs'
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useFormContext } from 'react-hook-form'
 import { AvailableTime } from '../types/guide'
+import '../css/availabilityRow.css'
+
 type Props = {
   dateList: Date[]
   index: number
@@ -77,17 +77,8 @@ export const AvailabilityRow = (props: Props) => {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'row',
-        flex: 1,
-        marginBottom: '10px',
-        gap: '8px'
-      }}
-    >
-      <FormControl style={{ width: '100%' }}>
+    <div className="rowContainer">
+      <FormControl className="fullWidth">
         <InputLabel>Select day</InputLabel>
         <Select label="Select day" value={day} onChange={handleDayChange}>
           {dateList.map((day, i) => (
