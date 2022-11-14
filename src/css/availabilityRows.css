@@ -16,3 +16,7 @@
 .button {
     width: 300px
 }
+
+.fitContent {
+    width: fit-content;
+}

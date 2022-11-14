@@ -88,16 +88,15 @@ export const AvailabilityRows = (props: Props) => {
             />
           )
         })}
+
+        <Button variant="text" onClick={addAvailability} className="fitContent">
+          + Add availability
+        </Button>
+
         <Box className="buttonContainer">
           <Button
-            variant="outlined"
-            onClick={addAvailability}
-            className="button"
-          >
-            Add availability
-          </Button>
-          <Button
-            variant="outlined"
+            variant="contained"
+            color="primary"
             onClick={handleSubmitAvailability}
             className="button"
           >
