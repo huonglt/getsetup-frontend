@@ -8,35 +8,16 @@ import {
   Button
 } from '@mui/material'
 import React, { useState } from 'react'
-import { useFieldArray } from 'react-hook-form'
 import { getGuideAvailability } from '../apis/guide'
 import { useApi } from '../hooks/useApi'
-
 import { GuideAvailability } from '../types/guide'
-import { weekData } from '../util/util'
+import {
+  formatAvailabilityTime,
+  formatMonToSun,
+  guideList,
+  weekData
+} from '../util/util'
 
-const initialData = {
-  userId: 1,
-  weekNumber: 46,
-  availability: [
-    {
-      from: new Date(2022, 11, 13, 8, 0),
-      to: new Date(2022, 11, 13, 9, 0),
-      booked: false
-    }
-  ]
-}
-
-const guideList = [
-  {
-    userId: 1,
-    userName: 'Doris Wilson'
-  },
-  {
-    userId: 2,
-    userName: 'Amy Smith'
-  }
-]
 type Props = {
   onClickSubmit: (userId: number, weekNumber: number) => void
 }
@@ -91,18 +72,7 @@ export const Availability = (props: Props) => {
         <Select value={weekNumber} onChange={handleWeekChange}>
           {weekData.map((week) => (
             <MenuItem value={week.weekNumber} key={week.weekNumber}>
-              Week {week.weekNumber}:{' '}
-              {week.monday.toLocaleDateString('en-NZ', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric'
-              })}{' '}
-              {' - '}
-              {week.sunday.toLocaleDateString('en-NZ', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric'
-              })}
+              Week {week.weekNumber}: {formatMonToSun(week.monday, week.sunday)}
             </MenuItem>
           ))}
         </Select>
@@ -140,26 +110,17 @@ export const Availability = (props: Props) => {
             Teaching Availability for userId {data.userId} for the week #
             {data.weekNumber}
           </Typography>
-          {data.availability.map((timeslot, index) => {
-            if (!timeslot.from || !timeslot.to) {
-              return null
-            }
-            return (
-              <Typography key={index}>
-                {new Date(timeslot.from).toDateString()}{' '}
-                {new Date(timeslot.from).toLocaleTimeString('en-NZ', {
-                  timeStyle: 'short'
-                })}
-                {' - '}
-                {new Date(timeslot.to).toLocaleTimeString('en-NZ', {
-                  timeStyle: 'short'
-                })}
-              </Typography>
-            )
-          })}
+          {data.availability
+            .filter((timeslot) => timeslot.from && timeslot.to)
+            .map((timeslot, index) => {
+              return (
+                <Typography key={index}>
+                  {formatAvailabilityTime(timeslot)}
+                </Typography>
+              )
+            })}
         </>
       )}
-      <Typography>Calendar</Typography>
     </div>
   )
 }
