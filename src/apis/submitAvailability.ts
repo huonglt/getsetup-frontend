@@ -23,7 +23,7 @@ export const submitAvailability = async (
     if (error instanceof Error) {
       err = error
     } else {
-      err = new Error('some other error')
+      err = new Error(`Some error occured: ${JSON.stringify(error)}`)
     }
   }
   return err
