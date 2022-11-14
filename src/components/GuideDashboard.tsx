@@ -8,14 +8,14 @@ export const GuideDashboard = () => {
   const [weekNumber, setWeekNumber] = useState<number | null>(null)
 
   const goToUpdatePage = () => {
-    setCurrentPage('submit')
+    setCurrentPage('update')
   }
   const goToMainPage = () => {
     setCurrentPage('retrieve')
   }
 
   // Only go to update availability page when user selected an user and a week number
-  if (currentPage === 'submit' && userId && weekNumber) {
+  if (currentPage === 'update' && userId && weekNumber) {
     return (
       <UpdateAvailability
         userId={userId}

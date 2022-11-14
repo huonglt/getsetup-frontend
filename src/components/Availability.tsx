@@ -11,13 +11,9 @@ import React from 'react'
 import { getGuideAvailability } from '../apis/guide'
 import { useApi } from '../hooks/useApi'
 import { GuideAvailability } from '../types/guide'
-import {
-  formatAvailabilityTime,
-  formatMonToSun,
-  guideList,
-  weekData
-} from '../util/util'
+import { formatMonToSun, guideList, weekData } from '../util/util'
 import '../css/availability.css'
+import { AvailabilityList } from './AvailabilityList'
 
 type Props = {
   userId: number | null
@@ -37,7 +33,7 @@ export const Availability = (props: Props) => {
   const {
     isLoading,
     isError,
-    data,
+    data: guideAvailability,
     loadData: retrieveTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
 
@@ -52,6 +48,11 @@ export const Availability = (props: Props) => {
   const handleRetrieveAvailability = () => {
     retrieveTeachingAvailability(userId, weekNumber)
   }
+
+  const noTeachingAvailabilityFound =
+    !isError && !isLoading && guideAvailability === null
+  const showTeachingAvailability = !isError && !isLoading && guideAvailability
+
   return (
     <div className="container">
       <Typography>Select guide:</Typography>
@@ -92,25 +93,11 @@ export const Availability = (props: Props) => {
           Update Teaching Availability
         </Button>
       </Box>
-      {!isError && !isLoading && data === null && (
+      {noTeachingAvailabilityFound && (
         <Typography>No teaching availability data found</Typography>
       )}
-      {!isError && !isLoading && data && (
-        <>
-          <Typography>
-            Teaching Availability for userId {data.userId} for the week #
-            {data.weekNumber}
-          </Typography>
-          {data.availability
-            .filter((timeslot) => timeslot.from && timeslot.to)
-            .map((timeslot, index) => {
-              return (
-                <Typography key={index}>
-                  {formatAvailabilityTime(timeslot)}
-                </Typography>
-              )
-            })}
-        </>
+      {showTeachingAvailability && (
+        <AvailabilityList guideAvailability={guideAvailability} />
       )}
     </div>
   )
