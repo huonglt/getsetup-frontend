@@ -43,23 +43,11 @@ export const UpdateAvailability = (props: Props) => {
     }
   }
 
-  console.log(`availability = ${JSON.stringify(data?.availability)}`)
   const showData = !isError && !isLoading
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'column',
-        gap: '8px'
-      }}
-    >
-      <a
-        style={{ width: '300px', cursor: 'pointer' }}
-        onClick={handleBackClick}
-        href="#"
-      >
-        Go back to dashboard
+    <div className="container">
+      <a className="linkNav" onClick={handleBackClick} href="#">
+        <Typography>Go back to dashboard</Typography>
       </a>
       <Typography>
         Update teaching availability: userId = {userId}, weekNumber ={' '}

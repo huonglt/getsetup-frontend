@@ -15,3 +15,8 @@
 .button {
     width: 300px
 }
+
+.linkNav {
+    width: 300px;
+    cursor: pointer
+}
