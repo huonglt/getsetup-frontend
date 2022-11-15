@@ -11,10 +11,11 @@ import React, { useEffect } from 'react'
 import { getGuideAvailability } from '../apis/availability'
 import { useApi } from '../hooks/useApi'
 import { GuideAvailability } from '../types/guide'
-import { formatMonToSun, guideList, weekData } from '../util/util'
+import { formatMonToSun } from '../util/util'
 import '../css/availability.css'
 import { AvailabilityList } from './AvailabilityList'
 import { useWeekNumbers } from '../hooks/useWeekNumbers'
+import { useGuideList } from '../hooks/useGuideList'
 
 type Props = {
   userId: number | null
@@ -38,9 +39,10 @@ export const AvailabilitySearch = (props: Props) => {
     loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
   const { weekNumbers, loadWeekNumbers } = useWeekNumbers()
-
+  const { guideList, loadGuideList } = useGuideList()
   useEffect(() => {
     loadWeekNumbers()
+    loadGuideList()
   }, [])
 
   const handleGuideChange = (event: SelectChangeEvent) => {
@@ -59,17 +61,17 @@ export const AvailabilitySearch = (props: Props) => {
     !isError && !isLoading && guideAvailability === null
   const showTeachingAvailability = !isError && !isLoading && guideAvailability
 
-  console.log(`weekNumbers = ${JSON.stringify(weekNumbers)}`)
   return (
     <div className="container">
       <Typography>Select guide:</Typography>
       <FormControl>
         <Select onChange={handleGuideChange} value={String(userId)}>
-          {guideList.map((guide) => (
-            <MenuItem value={guide.userId} key={guide.userId}>
-              {guide.userName}
-            </MenuItem>
-          ))}
+          {guideList &&
+            guideList.map((guide) => (
+              <MenuItem value={guide.userId} key={guide.userId}>
+                {guide.userName}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
       <Typography>Select week number:</Typography>
