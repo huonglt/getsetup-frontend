@@ -29,14 +29,3 @@ export const formatWeekDay = (date: Date) => {
 export const formatMonToSun = (monday: Date, sunday: Date) => {
   return formatWeekDay(monday) + ' - ' + formatWeekDay(sunday)
 }
-
-export const guideList = [
-  {
-    userId: 1,
-    userName: 'Doris Wilson'
-  },
-  {
-    userId: 2,
-    userName: 'Amy Smith'
-  }
-]
