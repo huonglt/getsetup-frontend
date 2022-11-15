@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
 import { AvailableTime, GuideAvailability } from '../types/guide'
 import { AvailabilityRow } from './AvailabilityRow'
@@ -7,6 +7,7 @@ import '../css/availabilityRows.css'
 import guideAvailabilitySchema from '../validations/guideAvailability'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useWeekDays } from '../hooks/useWeekDays'
+import { getWeekDays } from '../apis/week'
 type Props = {
   userId: number
   weekNumber: number
@@ -24,9 +25,24 @@ type FormValues = {
   availability: AvailabilityItem[]
 }
 
+const emptyRow = {
+  from: null,
+  to: null,
+  day: ''
+}
 export const AvailabilityRows = (props: Props) => {
-  const { userId, weekNumber, initialData, submitAvailability } = props
+  const {
+    userId,
+    weekNumber,
+    submitAvailability,
+    initialData = [emptyRow]
+  } = props
   const { weekDays, loadWeekDays } = useWeekDays()
+
+  useEffect(() => {
+    loadWeekDays(weekNumber)
+  }, [])
+
   const useFormReturn = useForm<FormValues>({
     resolver: yupResolver(guideAvailabilitySchema),
     defaultValues: {
@@ -46,19 +62,11 @@ export const AvailabilityRows = (props: Props) => {
     name: 'availability'
   })
 
-  useEffect(() => {
-    loadWeekDays()
-  }, [])
   /**
    * Add a new blank availability to the fields object
    */
   const addAvailability = () => {
-    const newAvailability = {
-      from: null,
-      to: null,
-      day: ''
-    }
-    append(newAvailability)
+    append(emptyRow)
   }
 
   /**
