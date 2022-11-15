@@ -6,7 +6,8 @@ import {
   SelectChangeEvent,
   TextField,
   Button,
-  Box
+  Box,
+  Typography
 } from '@mui/material'
 import React, { useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
@@ -40,7 +41,11 @@ export const AvailabilityRow = (props: Props) => {
   const [from, setFrom] = useState<Dayjs | null>(initialFrom)
   const [to, setTo] = useState<Dayjs | null>(initialTo)
 
-  const { setValue } = useFormContext()
+  const {
+    setValue,
+    register,
+    formState: { errors }
+  } = useFormContext()
 
   const handleDayChange = (event: SelectChangeEvent) => {
     setDay(event.target.value as string)
@@ -89,13 +94,20 @@ export const AvailabilityRow = (props: Props) => {
   const handleRemove = () => {
     onRemove(index)
   }
+  // @ts-ignore: Unreachable code error
+  const validationError = errors.availability?.[index]
 
   return (
     <Box className="rowContainer">
       <FormControl className="fullWidth">
         <InputLabel>Select day</InputLabel>
-        <Select label="Select day" value={day} onChange={handleDayChange}>
-          {dateList.map((date, i) => {
+        <Select
+          label="Select day"
+          value={day}
+          onChange={handleDayChange}
+          inputProps={{ ...register(`availability[${index}].day`) }}
+        >
+          {dateList.map((date) => {
             const formattedDate = formatDate(date)
             return (
               <MenuItem value={formattedDate} key={formattedDate}>
@@ -104,20 +116,36 @@ export const AvailabilityRow = (props: Props) => {
             )
           })}
         </Select>
+        {validationError?.day && (
+          <Typography color="red">{validationError.day.message}</Typography>
+        )}
       </FormControl>
+
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <TimePicker
-          label="Time"
-          value={from}
-          onChange={handleFromChange}
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <TimePicker
-          label="Time"
-          value={to}
-          onChange={handleToChange}
-          renderInput={(params) => <TextField {...params} />}
-        />
+        <FormControl className="timePicker">
+          <TimePicker
+            label="Time"
+            value={from}
+            onChange={handleFromChange}
+            renderInput={(params) => <TextField {...params} />}
+            InputProps={{ ...register(`availability[${index}].from`) }}
+          />
+          {validationError?.from && (
+            <Typography color="red">{validationError.from.message}</Typography>
+          )}
+        </FormControl>
+        <FormControl className="timePicker">
+          <TimePicker
+            label="Time"
+            value={to}
+            onChange={handleToChange}
+            renderInput={(params) => <TextField {...params} />}
+            InputProps={{ ...register(`availability[${index}].to`) }}
+          />
+          {validationError?.to && (
+            <Typography color="red">{validationError.to.message}</Typography>
+          )}
+        </FormControl>
       </LocalizationProvider>
       <Button onClick={handleRemove}>Remove</Button>
     </Box>
