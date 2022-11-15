@@ -78,10 +78,9 @@ export const AvailabilitySearch = (props: Props) => {
       <FormControl>
         <Select value={String(weekNumber)} onChange={handleWeekChange}>
           {weekNumbers &&
-            weekNumbers.map((week) => (
-              <MenuItem value={week.weekNumber} key={week.weekNumber}>
-                Week {week.weekNumber}:{' '}
-                {formatMonToSun(week.monday, week.sunday)}
+            weekNumbers.map(({ weekNumber, weekDays }) => (
+              <MenuItem value={weekNumber} key={weekNumber}>
+                Week {weekNumber}: {formatMonToSun(weekDays[0], weekDays[6])}
               </MenuItem>
             ))}
         </Select>
