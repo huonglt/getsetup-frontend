@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getGuideAvailability } from '../apis/guide'
 import { submitAvailability } from '../apis/submitAvailability'
 import { useApi } from '../hooks/useApi'
@@ -12,15 +12,17 @@ type Props = {
   goBack: () => void
 }
 export const UpdateAvailability = (props: Props) => {
+  const { userId, weekNumber } = props
+  // error occured on backend when submit teaching availability
+  const [submitedError, setSubmitedError] = useState<Error | null>(null)
+
   const { loadData: submitGuideAvailability } =
     useApi<unknown>(submitAvailability)
-
-  const { userId, weekNumber } = props
   const {
     isLoading,
     isError,
     data,
-    loadData: retrieveTeachingAvailability
+    loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
 
   const handleBackClick = () => {
@@ -28,17 +30,18 @@ export const UpdateAvailability = (props: Props) => {
   }
 
   useEffect(() => {
-    retrieveTeachingAvailability(userId, weekNumber)
+    loadTeachingAvailability(userId, weekNumber)
   }, [])
 
   const handleSubmitAvailability = async (
     guideAvailability: GuideAvailability
   ) => {
     try {
+      // clear the error before submitting
+      setSubmitedError(null)
       const result = await submitGuideAvailability(guideAvailability)
-      console.log(`submit availability: result = ${JSON.stringify(result)}`)
     } catch (err) {
-      console.log(`err while submitting availability: ${JSON.stringify(err)}`)
+      setSubmitedError(err as Error)
     }
   }
 
@@ -60,6 +63,8 @@ export const UpdateAvailability = (props: Props) => {
           submitAvailability={handleSubmitAvailability}
         />
       )}
+      {/* show api error if any */}
+      {submitedError && <Typography color={'red'}>{submitedError}</Typography>}
     </div>
   )
 }
