@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
 import { AvailableTime, GuideAvailability } from '../types/guide'
 import { AvailabilityRow } from './AvailabilityRow'
@@ -7,7 +7,7 @@ import '../css/availabilityRows.css'
 import guideAvailabilitySchema from '../validations/guideAvailability'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useWeekDays } from '../hooks/useWeekDays'
-import { getWeekDays } from '../apis/week'
+
 type Props = {
   userId: number
   weekNumber: number
