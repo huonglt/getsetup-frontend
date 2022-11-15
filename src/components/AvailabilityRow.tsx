@@ -15,6 +15,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useFormContext } from 'react-hook-form'
 import { AvailableTime } from '../types/guide'
 import '../css/availabilityRow.css'
+import { formatDate } from '../util/util'
 
 type Props = {
   dateList: Date[]
@@ -24,26 +25,22 @@ type Props = {
   availability?: AvailableTime
 }
 export const AvailabilityRow = (props: Props) => {
-  const { control, register, getValues, setValue, formState, clearErrors } =
-    useFormContext()
+  const { control, setValue, formState } = useFormContext()
 
-  const { dateList, onChange, index, onRemove, availability } = props
+  const { dateList, index, onRemove, availability } = props
 
-  const initialDay =
-    availability?.from && availability?.from?.toDateString
-      ? availability.from.toDateString()
-      : ''
+  // extract day from field from so the day drop down is pre-selected with correct value
+  const initialDay = availability?.from ? formatDate(availability.from) : ''
+  const initialFrom = availability?.from ? dayjs(availability.from) : null
+  const initialTo = availability?.to ? dayjs(availability.to) : null
+
   const [day, setDay] = useState(initialDay)
+  const [from, setFrom] = React.useState<Dayjs | null>(initialFrom)
+  const [to, setTo] = React.useState<Dayjs | null>(initialTo)
 
   const handleDayChange = (event: SelectChangeEvent) => {
     setDay(event.target.value as string)
   }
-  const [from, setFrom] = React.useState<Dayjs | null>(() =>
-    availability?.from ? dayjs(availability.from) : null
-  )
-  const [to, setTo] = React.useState<Dayjs | null>(() =>
-    availability?.to ? dayjs(availability.to) : null
-  )
 
   const handleFromChange = (newValue: Dayjs | null) => {
     let selectedDay = null
@@ -54,9 +51,11 @@ export const AvailabilityRow = (props: Props) => {
         selectedDay.setMinutes(newValue.minute())
       }
     }
-    const temp = selectedDay ? dayjs(selectedDay) : newValue
-    setFrom(temp)
-    setValue(`availabilities[${index}].from`, newValue)
+    const selectedFrom = selectedDay ? dayjs(selectedDay) : newValue
+    // update the from time picker field
+    setFrom(selectedFrom)
+    // update the from field of record availabilities[index]
+    setValue(`availabilities[${index}].from`, selectedFrom)
   }
 
   const handleToChange = (newValue: Dayjs | null) => {
@@ -68,9 +67,12 @@ export const AvailabilityRow = (props: Props) => {
         selectedDay.setMinutes(newValue.minute())
       }
     }
-    const temp = selectedDay ? dayjs(selectedDay) : newValue
-    setTo(temp)
-    setValue(`availabilities[${index}].to`, newValue)
+
+    const selectedTo = selectedDay ? dayjs(selectedDay) : newValue
+    // update the to time picker field
+    setTo(selectedTo)
+    // update the to field of record availabilities[index]
+    setValue(`availabilities[${index}].to`, selectedTo)
   }
 
   const handleRemove = () => {
