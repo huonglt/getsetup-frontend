@@ -34,7 +34,7 @@ export const AvailabilitySearch = (props: Props) => {
     isLoading,
     isError,
     data: guideAvailability,
-    loadData: retrieveTeachingAvailability
+    loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
 
   const handleGuideChange = (event: SelectChangeEvent) => {
@@ -45,8 +45,8 @@ export const AvailabilitySearch = (props: Props) => {
     onWeekNumberChange(Number(event.target.value))
   }
 
-  const handleRetrieveAvailability = () => {
-    retrieveTeachingAvailability(userId, weekNumber)
+  const handleLoadAvailability = () => {
+    loadTeachingAvailability(userId, weekNumber)
   }
 
   const noTeachingAvailabilityFound =
@@ -79,7 +79,7 @@ export const AvailabilitySearch = (props: Props) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={handleRetrieveAvailability}
+          onClick={handleLoadAvailability}
           className="button"
         >
           View Teaching Availability
