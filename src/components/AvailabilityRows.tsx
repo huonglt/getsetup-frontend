@@ -22,13 +22,13 @@ const dateList = [
   new Date(2022, 10, 20)
 ]
 
-type AvailableTimeWithDay = {
+type AvailabilityItem = {
   from: Date | null
   to: Date | null
   day: string
 }
 type FormValues = {
-  availability: AvailableTimeWithDay[]
+  availability: AvailabilityItem[]
 }
 
 export const AvailabilityRows = (props: Props) => {
@@ -52,6 +52,9 @@ export const AvailabilityRows = (props: Props) => {
     name: 'availability'
   })
 
+  /**
+   * Add a new blank availability to the fields object
+   */
   const addAvailability = () => {
     const newAvailability = {
       from: null,
@@ -61,20 +64,37 @@ export const AvailabilityRows = (props: Props) => {
     append(newAvailability)
   }
 
+  /**
+   * Remove an availability from fields object
+   */
   const removeAvailability = (index: number) => {
     remove(index)
   }
+
+  /**
+   * Update availability in fields object
+   */
   const updateAvailability = (
     index: number,
-    changedAvailability: AvailableTimeWithDay
+    changedAvailability: AvailabilityItem
   ) => {
     update(index, changedAvailability)
   }
+
+  /**
+   * Submit availability button handler
+   * Validate form before submssion
+   * If form invlid, exit, and show validation error message
+   * If form valid, send a post request to update teaching availability
+   */
   const handleSubmitAvailability = async () => {
+    // trigger form validation
     const isValid = await trigger('availability')
     if (!isValid) {
       return
     }
+
+    // form valid, call api to update availability
     const availability = getValues('availability')
     const guideAvailability = {
       userId,
@@ -91,7 +111,7 @@ export const AvailabilityRows = (props: Props) => {
           const removeRow = () => {
             removeAvailability(index)
           }
-          const updateRow = (changedRow: AvailableTimeWithDay) => {
+          const updateRow = (changedRow: AvailabilityItem) => {
             updateAvailability(index, changedRow)
           }
           const data = { from: availability.from, to: availability.to }
