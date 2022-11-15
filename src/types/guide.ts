@@ -14,3 +14,8 @@ export type WeekNumber = {
   monday: Date
   sunday: Date
 }
+
+export type Guide = {
+  userId: number
+  userName: string
+}
