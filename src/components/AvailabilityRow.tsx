@@ -35,44 +35,44 @@ export const AvailabilityRow = (props: Props) => {
   const initialTo = availability?.to ? dayjs(availability.to) : null
 
   const [day, setDay] = useState(initialDay)
-  const [from, setFrom] = React.useState<Dayjs | null>(initialFrom)
-  const [to, setTo] = React.useState<Dayjs | null>(initialTo)
+  const [from, setFrom] = useState<Dayjs | null>(initialFrom)
+  const [to, setTo] = useState<Dayjs | null>(initialTo)
 
   const handleDayChange = (event: SelectChangeEvent) => {
     setDay(event.target.value as string)
   }
 
-  const handleFromChange = (newValue: Dayjs | null) => {
+  const handleFromChange = (value: Dayjs | null) => {
     let selectedDay = null
     if (day) {
       selectedDay = new Date(day)
-      if (newValue) {
-        selectedDay.setHours(newValue.hour())
-        selectedDay.setMinutes(newValue.minute())
+      if (value) {
+        selectedDay.setHours(value.hour())
+        selectedDay.setMinutes(value.minute())
       }
     }
-    const selectedFrom = selectedDay ? dayjs(selectedDay) : newValue
+    const newFrom = selectedDay ? dayjs(selectedDay) : value
     // update the from time picker field
-    setFrom(selectedFrom)
+    setFrom(newFrom)
     // update the from field of record availabilities[index]
-    setValue(`availabilities[${index}].from`, selectedFrom)
+    setValue(`availabilities[${index}].from`, newFrom)
   }
 
-  const handleToChange = (newValue: Dayjs | null) => {
+  const handleToChange = (value: Dayjs | null) => {
     let selectedDay = null
     if (day) {
       selectedDay = new Date(day)
-      if (newValue) {
-        selectedDay.setHours(newValue.hour())
-        selectedDay.setMinutes(newValue.minute())
+      if (value) {
+        selectedDay.setHours(value.hour())
+        selectedDay.setMinutes(value.minute())
       }
     }
 
-    const selectedTo = selectedDay ? dayjs(selectedDay) : newValue
+    const newTo = selectedDay ? dayjs(selectedDay) : value
     // update the to time picker field
-    setTo(selectedTo)
-    // update the to field of record availabilities[index]
-    setValue(`availabilities[${index}].to`, selectedTo)
+    setTo(newTo)
+    // update the to field of record availabilities[index]s
+    setValue(`availabilities[${index}].to`, newTo)
   }
 
   const handleRemove = () => {
