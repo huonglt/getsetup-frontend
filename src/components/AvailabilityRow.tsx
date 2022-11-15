@@ -62,7 +62,7 @@ export const AvailabilityRow = (props: Props) => {
     // update the from time picker field
     setFrom(newFrom)
     // update the from field of record availabilities[index]
-    setValue(`availabilities[${index}].from`, newFrom)
+    setValue(`availability[${index}].from`, newFrom)
   }
 
   /**
@@ -80,7 +80,7 @@ export const AvailabilityRow = (props: Props) => {
     // update the to time picker field
     setTo(newTo)
     // update the to field of record availabilities[index]s
-    setValue(`availabilities[${index}].to`, newTo)
+    setValue(`availability[${index}].to`, newTo)
   }
 
   /**

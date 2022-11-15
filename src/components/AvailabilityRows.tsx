@@ -22,14 +22,14 @@ const dateList = [
 ]
 
 type FormValues = {
-  availabilities: AvailableTime[]
+  availability: AvailableTime[]
 }
 
 export const AvailabilityRows = (props: Props) => {
   const { userId, weekNumber, initialData, submitAvailability } = props
   const useFormReturn = useForm<FormValues>({
     defaultValues: {
-      availabilities: initialData
+      availability: initialData
     }
   })
 
@@ -37,7 +37,7 @@ export const AvailabilityRows = (props: Props) => {
 
   const { append, remove, fields, update } = useFieldArray({
     control,
-    name: 'availabilities'
+    name: 'availability'
   })
 
   const addAvailability = () => {
@@ -58,7 +58,7 @@ export const AvailabilityRows = (props: Props) => {
     update(index, changedAvailability)
   }
   const handleSubmitAvailability = async () => {
-    const availability = getValues('availabilities')
+    const availability = getValues('availability')
     const guideAvailability = {
       userId,
       weekNumber,
