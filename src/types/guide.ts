@@ -11,8 +11,7 @@ export type GuideAvailability = {
 
 export type WeekNumber = {
   weekNumber: number
-  monday: Date
-  sunday: Date
+  weekDays: Date[]
 }
 
 export type Guide = {
