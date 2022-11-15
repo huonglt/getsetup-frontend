@@ -22,9 +22,10 @@ const dateList = [
   new Date(2022, 10, 20)
 ]
 
-type AvailabilityItem = {
-  from: Date | null
-  to: Date | null
+/**
+ * UI extract day out of from field, so add day field to AvailableTime
+ */
+type AvailabilityItem = AvailableTime & {
   day: string
 }
 type FormValues = {
