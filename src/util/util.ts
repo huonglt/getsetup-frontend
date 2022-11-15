@@ -1,7 +1,9 @@
 import { AvailableTime, AvailabilityWeek } from '../types/guide'
 
+const defaultLocale = 'en-NZ'
+
 export const formatShortTime = (date: Date) => {
-  return new Date(date).toLocaleTimeString('en-NZ', {
+  return new Date(date).toLocaleTimeString(defaultLocale, {
     timeStyle: 'short'
   })
 }
@@ -19,7 +21,7 @@ export const formatAvailabilityTime = (availableTime: AvailableTime) => {
 }
 
 export const formatWeekDay = (date: Date) => {
-  return new Date(date).toLocaleDateString('en-NZ', {
+  return new Date(date).toLocaleDateString(defaultLocale, {
     weekday: 'short',
     month: 'short',
     day: 'numeric'
