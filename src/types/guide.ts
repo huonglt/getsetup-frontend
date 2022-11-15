@@ -9,7 +9,7 @@ export type GuideAvailability = {
   availability: AvailableTime[]
 }
 
-export type WeekNumber = {
+export type AvailabilityWeek = {
   weekNumber: number
   weekDays: Date[]
 }

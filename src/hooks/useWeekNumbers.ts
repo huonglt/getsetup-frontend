@@ -1,5 +1,5 @@
 import { getWeekNumbers } from '../apis/week'
-import { WeekNumber } from '../types/guide'
+import { AvailabilityWeek } from '../types/guide'
 import { useApi } from './useApi'
 
 export const useWeekNumbers = () => {
@@ -8,7 +8,7 @@ export const useWeekNumbers = () => {
     isError,
     data: weekNumbers,
     loadData: loadWeekNumbers
-  } = useApi<WeekNumber[]>(getWeekNumbers)
+  } = useApi<AvailabilityWeek[]>(getWeekNumbers)
 
   return { isLoading, isError, weekNumbers, loadWeekNumbers }
 }
