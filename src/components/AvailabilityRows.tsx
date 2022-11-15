@@ -4,7 +4,8 @@ import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
 import { AvailableTime, GuideAvailability } from '../types/guide'
 import { AvailabilityRow } from './AvailabilityRow'
 import '../css/availabilityRows.css'
-
+import guideAvailabilitySchema from '../validations/guideAvailability'
+import { yupResolver } from '@hookform/resolvers/yup'
 type Props = {
   userId: number
   weekNumber: number
@@ -21,19 +22,30 @@ const dateList = [
   new Date(2022, 10, 20)
 ]
 
+type AvailableTimeWithDay = {
+  from: Date | null
+  to: Date | null
+  day: string
+}
 type FormValues = {
-  availability: AvailableTime[]
+  availability: AvailableTimeWithDay[]
 }
 
 export const AvailabilityRows = (props: Props) => {
   const { userId, weekNumber, initialData, submitAvailability } = props
   const useFormReturn = useForm<FormValues>({
+    resolver: yupResolver(guideAvailabilitySchema),
     defaultValues: {
       availability: initialData
     }
   })
 
-  const { control, getValues } = useFormReturn
+  const {
+    control,
+    getValues,
+    trigger,
+    formState: { errors }
+  } = useFormReturn
 
   const { append, remove, fields, update } = useFieldArray({
     control,
@@ -43,7 +55,8 @@ export const AvailabilityRows = (props: Props) => {
   const addAvailability = () => {
     const newAvailability = {
       from: null,
-      to: null
+      to: null,
+      day: ''
     }
     append(newAvailability)
   }
@@ -53,11 +66,15 @@ export const AvailabilityRows = (props: Props) => {
   }
   const updateAvailability = (
     index: number,
-    changedAvailability: AvailableTime
+    changedAvailability: AvailableTimeWithDay
   ) => {
     update(index, changedAvailability)
   }
   const handleSubmitAvailability = async () => {
+    const isValid = await trigger('availability')
+    if (!isValid) {
+      return
+    }
     const availability = getValues('availability')
     const guideAvailability = {
       userId,
@@ -66,6 +83,7 @@ export const AvailabilityRows = (props: Props) => {
     }
     submitAvailability(guideAvailability)
   }
+
   return (
     <FormProvider {...useFormReturn}>
       <Box className="container">
@@ -73,7 +91,7 @@ export const AvailabilityRows = (props: Props) => {
           const removeRow = () => {
             removeAvailability(index)
           }
-          const updateRow = (changedRow: AvailableTime) => {
+          const updateRow = (changedRow: AvailableTimeWithDay) => {
             updateAvailability(index, changedRow)
           }
           const data = { from: availability.from, to: availability.to }
