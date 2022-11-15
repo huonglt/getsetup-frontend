@@ -1,4 +1,4 @@
-import { AvailableTime } from '../types/guide'
+import { AvailableTime, AvailabilityWeek } from '../types/guide'
 
 export const formatShortTime = (date: Date) => {
   return new Date(date).toLocaleTimeString('en-NZ', {
@@ -28,4 +28,12 @@ export const formatWeekDay = (date: Date) => {
 
 export const formatMonToSun = (monday: Date, sunday: Date) => {
   return formatWeekDay(monday) + ' - ' + formatWeekDay(sunday)
+}
+
+/**
+ * Method to format an availability week forthe UI
+ */
+export const formatAvailabilityWeek = (availabilityWeek: AvailabilityWeek) => {
+  const { weekNumber, weekDays } = availabilityWeek
+  return `Week ${weekNumber}: ${formatMonToSun(weekDays[0], weekDays[6])}`
 }
