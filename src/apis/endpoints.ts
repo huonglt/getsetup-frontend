@@ -9,8 +9,8 @@ export const GET_GUIDE_AVAILABILITY = `${HOST}/availability`
 // endpoint to submit guide teaching availability
 export const POST_GUIDE_AVAILABILITY = `${HOST}/availability/update`
 
-// endpoint to get all week numbers
-export const GET_WEEK_NUMBERS = `${HOST}/week/weekNumbers`
+// endpoint to get all weeks for availability
+export const GET_AVAILABILITY_WEEKS = `${HOST}/week/availabilityWeeks`
 
 // endpoint to get week days of a given week
 export const GET_WEEK_DAYS = `${HOST}/week/weekDays`

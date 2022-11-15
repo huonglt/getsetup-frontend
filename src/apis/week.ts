@@ -1,13 +1,13 @@
-import { GET_WEEK_DAYS, GET_WEEK_NUMBERS } from './endpoints'
+import { GET_WEEK_DAYS, GET_AVAILABILITY_WEEKS } from './endpoints'
 
 /**
- * Method to get all week numbers currently supported
+ * Method to get all weeks to add / update availability currently supported
  */
-export const getWeekNumbers = async () => {
+export const getAvailabilityWeeks = async () => {
   let err: Error | null = null
 
   try {
-    const response = await fetch(GET_WEEK_NUMBERS, {
+    const response = await fetch(GET_AVAILABILITY_WEEKS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

@@ -11,10 +11,10 @@ import React, { useEffect } from 'react'
 import { getGuideAvailability } from '../apis/availability'
 import { useApi } from '../hooks/useApi'
 import { GuideAvailability } from '../types/guide'
-import { formatMonToSun } from '../util/util'
+import { formatAvailabilityWeek } from '../util/util'
 import '../css/availability.css'
 import { AvailabilityList } from './AvailabilityList'
-import { useWeekNumbers } from '../hooks/useWeekNumbers'
+import { useAvailabilityWeek } from '../hooks/useAvailabilityWeek'
 import { useGuideList } from '../hooks/useGuideList'
 
 type Props = {
@@ -38,10 +38,10 @@ export const AvailabilitySearch = (props: Props) => {
     data: guideAvailability,
     loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
-  const { weekNumbers, loadWeekNumbers } = useWeekNumbers()
+  const { availabilityWeeks, loadAvailabilityWeeks } = useAvailabilityWeek()
   const { guideList, loadGuideList } = useGuideList()
   useEffect(() => {
-    loadWeekNumbers()
+    loadAvailabilityWeeks()
     loadGuideList()
   }, [])
 
@@ -77,10 +77,10 @@ export const AvailabilitySearch = (props: Props) => {
       <Typography>Select week number:</Typography>
       <FormControl>
         <Select value={String(weekNumber)} onChange={handleWeekChange}>
-          {weekNumbers &&
-            weekNumbers.map(({ weekNumber, weekDays }) => (
-              <MenuItem value={weekNumber} key={weekNumber}>
-                Week {weekNumber}: {formatMonToSun(weekDays[0], weekDays[6])}
+          {availabilityWeeks &&
+            availabilityWeeks.map((week) => (
+              <MenuItem value={week.weekNumber} key={week.weekNumber}>
+                {formatAvailabilityWeek(week)}
               </MenuItem>
             ))}
         </Select>
