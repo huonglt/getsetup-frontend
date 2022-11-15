@@ -14,7 +14,7 @@ import { GuideAvailability } from '../types/guide'
 import { formatAvailabilityWeek } from '../util/util'
 import '../css/availability.css'
 import { AvailabilityList } from './AvailabilityList'
-import { useAvailabilityWeek } from '../hooks/useAvailabilityWeek'
+import { useAvailabilityWeeks } from '../hooks/useAvailabilityWeeks'
 import { useGuideList } from '../hooks/useGuideList'
 
 type Props = {
@@ -38,7 +38,7 @@ export const AvailabilitySearch = (props: Props) => {
     data: guideAvailability,
     loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
-  const { availabilityWeeks, loadAvailabilityWeeks } = useAvailabilityWeek()
+  const { availabilityWeeks, loadAvailabilityWeeks } = useAvailabilityWeeks()
   const { guideList, loadGuideList } = useGuideList()
   useEffect(() => {
     loadAvailabilityWeeks()

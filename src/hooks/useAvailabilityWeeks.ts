@@ -2,7 +2,7 @@ import { getAvailabilityWeeks } from '../apis/week'
 import { AvailabilityWeek } from '../types/guide'
 import { useApi } from './useApi'
 
-export const useAvailabilityWeek = () => {
+export const useAvailabilityWeeks = () => {
   const {
     isLoading,
     isError,
