@@ -7,13 +7,14 @@ import {
   Typography,
   Button
 } from '@mui/material'
-import React from 'react'
-import { getGuideAvailability } from '../apis/guide'
+import React, { useEffect } from 'react'
+import { getGuideAvailability } from '../apis/availability'
 import { useApi } from '../hooks/useApi'
 import { GuideAvailability } from '../types/guide'
 import { formatMonToSun, guideList, weekData } from '../util/util'
 import '../css/availability.css'
 import { AvailabilityList } from './AvailabilityList'
+import { useWeekNumbers } from '../hooks/useWeekNumbers'
 
 type Props = {
   userId: number | null
@@ -36,6 +37,11 @@ export const AvailabilitySearch = (props: Props) => {
     data: guideAvailability,
     loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
+  const { weekNumbers, loadWeekNumbers } = useWeekNumbers()
+
+  useEffect(() => {
+    loadWeekNumbers()
+  }, [])
 
   const handleGuideChange = (event: SelectChangeEvent) => {
     onUserIdChange(Number(event.target.value))
@@ -53,6 +59,7 @@ export const AvailabilitySearch = (props: Props) => {
     !isError && !isLoading && guideAvailability === null
   const showTeachingAvailability = !isError && !isLoading && guideAvailability
 
+  console.log(`weekNumbers = ${JSON.stringify(weekNumbers)}`)
   return (
     <div className="container">
       <Typography>Select guide:</Typography>
@@ -68,11 +75,13 @@ export const AvailabilitySearch = (props: Props) => {
       <Typography>Select week number:</Typography>
       <FormControl>
         <Select value={String(weekNumber)} onChange={handleWeekChange}>
-          {weekData.map((week) => (
-            <MenuItem value={week.weekNumber} key={week.weekNumber}>
-              Week {week.weekNumber}: {formatMonToSun(week.monday, week.sunday)}
-            </MenuItem>
-          ))}
+          {weekNumbers &&
+            weekNumbers.map((week) => (
+              <MenuItem value={week.weekNumber} key={week.weekNumber}>
+                Week {week.weekNumber}:{' '}
+                {formatMonToSun(week.monday, week.sunday)}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
       <Box className="buttonContainer">

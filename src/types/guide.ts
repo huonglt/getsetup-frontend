@@ -8,3 +8,9 @@ export type GuideAvailability = {
   weekNumber: number
   availability: AvailableTime[]
 }
+
+export type WeekNumber = {
+  weekNumber: number
+  monday: Date
+  sunday: Date
+}
