@@ -9,10 +9,10 @@ import { AvailabilityRows } from './AvailabilityRows'
 type Props = {
   userId: number
   weekNumber: number
-  goBack: () => void
+  goToSearchPage: () => void
 }
 export const UpdateAvailability = (props: Props) => {
-  const { userId, weekNumber } = props
+  const { userId, weekNumber, goToSearchPage } = props
   // error occured on backend when submit teaching availability
   const [submitedError, setSubmitedError] = useState<Error | null>(null)
 
@@ -25,10 +25,6 @@ export const UpdateAvailability = (props: Props) => {
     loadData: loadTeachingAvailability
   } = useApi<GuideAvailability>(getGuideAvailability)
 
-  const handleBackClick = () => {
-    props.goBack()
-  }
-
   useEffect(() => {
     loadTeachingAvailability(userId, weekNumber)
   }, [])
@@ -40,6 +36,7 @@ export const UpdateAvailability = (props: Props) => {
       // clear the error before submitting
       setSubmitedError(null)
       const result = await submitGuideAvailability(guideAvailability)
+      goToSearchPage()
     } catch (err) {
       setSubmitedError(err as Error)
     }
@@ -48,7 +45,7 @@ export const UpdateAvailability = (props: Props) => {
   const showData = !isError && !isLoading
   return (
     <div className="container">
-      <a className="linkNav" onClick={handleBackClick} href="#">
+      <a className="linkNav" onClick={goToSearchPage} href="#">
         <Typography>Go back to dashboard</Typography>
       </a>
       <Typography>

@@ -20,7 +20,7 @@ export const GuideDashboard = () => {
       <UpdateAvailability
         userId={userId}
         weekNumber={weekNumber}
-        goBack={goToSearchPage}
+        goToSearchPage={goToSearchPage}
       />
     )
   }
