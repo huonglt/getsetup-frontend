@@ -3,15 +3,15 @@ import { AvailabilitySearch } from './AvailabilitySearch'
 import { UpdateAvailability } from './UpdateAvailability'
 
 export const GuideDashboard = () => {
-  const [currentPage, setCurrentPage] = useState('retrieve')
+  const [currentPage, setCurrentPage] = useState('search')
   const [userId, setUserId] = useState<number | null>(null)
   const [weekNumber, setWeekNumber] = useState<number | null>(null)
 
   const goToUpdatePage = () => {
     setCurrentPage('update')
   }
-  const goToMainPage = () => {
-    setCurrentPage('main')
+  const goToSearchPage = () => {
+    setCurrentPage('search')
   }
 
   // Only go to update availability page when user selected an user and a week number
@@ -20,10 +20,12 @@ export const GuideDashboard = () => {
       <UpdateAvailability
         userId={userId}
         weekNumber={weekNumber}
-        goBack={goToMainPage}
+        goBack={goToSearchPage}
       />
     )
   }
+
+  // main page is search page
   return (
     <AvailabilitySearch
       goToUpdatePage={goToUpdatePage}
