@@ -25,17 +25,21 @@ type FormValues = {
   availability: AvailabilityItem[]
 }
 
-const emptyRow = {
+const blankAvailability = {
   from: null,
   to: null,
   day: ''
 }
+
+/**
+ * UI to allow teacher add / update / delete availability timeslots
+ */
 export const AvailabilityRows = (props: Props) => {
   const {
     userId,
     weekNumber,
     submitAvailability,
-    initialData = [emptyRow]
+    initialData = [blankAvailability]
   } = props
   const { weekDays, loadWeekDays } = useWeekDays()
 
@@ -66,7 +70,7 @@ export const AvailabilityRows = (props: Props) => {
    * Add a new blank availability to the fields object
    */
   const addAvailability = () => {
-    append(emptyRow)
+    append(blankAvailability)
   }
 
   /**
