@@ -25,8 +25,6 @@ type Props = {
   availability?: AvailableTime
 }
 export const AvailabilityRow = (props: Props) => {
-  const { control, setValue, formState } = useFormContext()
-
   const { dateList, index, onRemove, availability } = props
 
   // extract day from field from so the day drop down is pre-selected with correct value
@@ -38,43 +36,43 @@ export const AvailabilityRow = (props: Props) => {
   const [from, setFrom] = useState<Dayjs | null>(initialFrom)
   const [to, setTo] = useState<Dayjs | null>(initialTo)
 
+  const { setValue } = useFormContext()
+
   const handleDayChange = (event: SelectChangeEvent) => {
     setDay(event.target.value as string)
   }
 
-  const handleFromChange = (value: Dayjs | null) => {
+  const handleFromChange = (timePickerValue: Dayjs | null) => {
     let selectedDay = null
-    if (day) {
+    if (day && timePickerValue) {
       selectedDay = new Date(day)
-      if (value) {
-        selectedDay.setHours(value.hour())
-        selectedDay.setMinutes(value.minute())
-      }
+      selectedDay.setHours(timePickerValue.hour())
+      selectedDay.setMinutes(timePickerValue.minute())
     }
-    const newFrom = selectedDay ? dayjs(selectedDay) : value
+    const newFrom = selectedDay ? dayjs(selectedDay) : timePickerValue
     // update the from time picker field
     setFrom(newFrom)
     // update the from field of record availabilities[index]
     setValue(`availabilities[${index}].from`, newFrom)
   }
 
-  const handleToChange = (value: Dayjs | null) => {
+  const handleToChange = (timePickerValue: Dayjs | null) => {
     let selectedDay = null
-    if (day) {
+    if (day && timePickerValue) {
       selectedDay = new Date(day)
-      if (value) {
-        selectedDay.setHours(value.hour())
-        selectedDay.setMinutes(value.minute())
-      }
+      selectedDay.setHours(timePickerValue.hour())
+      selectedDay.setMinutes(timePickerValue.minute())
     }
-
-    const newTo = selectedDay ? dayjs(selectedDay) : value
+    const newTo = selectedDay ? dayjs(selectedDay) : timePickerValue
     // update the to time picker field
     setTo(newTo)
     // update the to field of record availabilities[index]s
     setValue(`availabilities[${index}].to`, newTo)
   }
 
+  /**
+   * Remove a availability row in the list
+   */
   const handleRemove = () => {
     onRemove(index)
   }
@@ -84,11 +82,14 @@ export const AvailabilityRow = (props: Props) => {
       <FormControl className="fullWidth">
         <InputLabel>Select day</InputLabel>
         <Select label="Select day" value={day} onChange={handleDayChange}>
-          {dateList.map((day, i) => (
-            <MenuItem value={day.toDateString()} key={day.toDateString()}>
-              {day.toDateString()}
-            </MenuItem>
-          ))}
+          {dateList.map((date, i) => {
+            const formattedDate = formatDate(date)
+            return (
+              <MenuItem value={formattedDate} key={formattedDate}>
+                {formattedDate}
+              </MenuItem>
+            )
+          })}
         </Select>
       </FormControl>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
