@@ -24,6 +24,10 @@ type Props = {
   onRemove: (index: number) => void
   availability?: AvailableTime
 }
+
+/**
+ * UI to show an availability timeslot for a teacher
+ */
 export const AvailabilityRow = (props: Props) => {
   const { dateList, index, onRemove, availability } = props
 
@@ -42,8 +46,13 @@ export const AvailabilityRow = (props: Props) => {
     setDay(event.target.value as string)
   }
 
+  /**
+   * From field change handler
+   */
   const handleFromChange = (timePickerValue: Dayjs | null) => {
     let selectedDay = null
+
+    // from will have value of day from the dropdown, and hour & minute from the picker
     if (day && timePickerValue) {
       selectedDay = new Date(day)
       selectedDay.setHours(timePickerValue.hour())
@@ -56,8 +65,12 @@ export const AvailabilityRow = (props: Props) => {
     setValue(`availabilities[${index}].from`, newFrom)
   }
 
+  /**
+   * To field change handler
+   */
   const handleToChange = (timePickerValue: Dayjs | null) => {
     let selectedDay = null
+    // to will have value of day from the dropdown, and hour & minute from the picker
     if (day && timePickerValue) {
       selectedDay = new Date(day)
       selectedDay.setHours(timePickerValue.hour())
