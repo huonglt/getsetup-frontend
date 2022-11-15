@@ -1,26 +1,18 @@
 import { Box, Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
 import { AvailableTime, GuideAvailability } from '../types/guide'
 import { AvailabilityRow } from './AvailabilityRow'
 import '../css/availabilityRows.css'
 import guideAvailabilitySchema from '../validations/guideAvailability'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useWeekDays } from '../hooks/useWeekDays'
 type Props = {
   userId: number
   weekNumber: number
   submitAvailability: (guideAvailability: GuideAvailability) => void
   initialData: AvailableTime[] | undefined
 }
-const dateList = [
-  new Date(2022, 10, 14),
-  new Date(2022, 10, 15),
-  new Date(2022, 10, 16),
-  new Date(2022, 10, 17),
-  new Date(2022, 10, 18),
-  new Date(2022, 10, 19),
-  new Date(2022, 10, 20)
-]
 
 /**
  * UI extract day out of from field, so add day field to AvailableTime
@@ -34,6 +26,7 @@ type FormValues = {
 
 export const AvailabilityRows = (props: Props) => {
   const { userId, weekNumber, initialData, submitAvailability } = props
+  const { weekDays, loadWeekDays } = useWeekDays()
   const useFormReturn = useForm<FormValues>({
     resolver: yupResolver(guideAvailabilitySchema),
     defaultValues: {
@@ -53,6 +46,9 @@ export const AvailabilityRows = (props: Props) => {
     name: 'availability'
   })
 
+  useEffect(() => {
+    loadWeekDays()
+  }, [])
   /**
    * Add a new blank availability to the fields object
    */
@@ -118,7 +114,7 @@ export const AvailabilityRows = (props: Props) => {
           const data = { from: availability.from, to: availability.to }
           return (
             <AvailabilityRow
-              dateList={dateList}
+              weekDays={weekDays}
               index={index}
               onChange={updateRow}
               onRemove={removeRow}

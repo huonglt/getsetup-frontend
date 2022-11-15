@@ -19,7 +19,7 @@ import '../css/availabilityRow.css'
 import { formatDate } from '../util/util'
 
 type Props = {
-  dateList: Date[]
+  weekDays: Date[] | undefined
   index: number
   onChange: (changedRow: any) => void
   onRemove: (index: number) => void
@@ -30,7 +30,7 @@ type Props = {
  * UI to show an availability timeslot for a teacher
  */
 export const AvailabilityRow = (props: Props) => {
-  const { dateList, index, onRemove, availability } = props
+  const { weekDays, index, onRemove, availability } = props
 
   // extract day from field from so the day drop down is pre-selected with correct value
   const initialDay = availability?.from ? formatDate(availability.from) : ''
@@ -107,14 +107,15 @@ export const AvailabilityRow = (props: Props) => {
           onChange={handleDayChange}
           inputProps={{ ...register(`availability[${index}].day`) }}
         >
-          {dateList.map((date) => {
-            const formattedDate = formatDate(date)
-            return (
-              <MenuItem value={formattedDate} key={formattedDate}>
-                {formattedDate}
-              </MenuItem>
-            )
-          })}
+          {weekDays &&
+            weekDays.map((date) => {
+              const formattedDate = formatDate(date)
+              return (
+                <MenuItem value={formattedDate} key={formattedDate}>
+                  {formattedDate}
+                </MenuItem>
+              )
+            })}
         </Select>
         {validationError?.day && (
           <Typography color="red">{validationError.day.message}</Typography>
