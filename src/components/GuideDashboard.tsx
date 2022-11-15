@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Availability } from './Availability'
+import { AvailabilitySearch } from './AvailabilitySearch'
 import { UpdateAvailability } from './UpdateAvailability'
 
 export const GuideDashboard = () => {
@@ -11,7 +11,7 @@ export const GuideDashboard = () => {
     setCurrentPage('update')
   }
   const goToMainPage = () => {
-    setCurrentPage('retrieve')
+    setCurrentPage('main')
   }
 
   // Only go to update availability page when user selected an user and a week number
@@ -25,7 +25,7 @@ export const GuideDashboard = () => {
     )
   }
   return (
-    <Availability
+    <AvailabilitySearch
       goToUpdatePage={goToUpdatePage}
       userId={userId}
       weekNumber={weekNumber}
