@@ -7,7 +7,7 @@ import {
   Typography,
   Button
 } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getGuideAvailability } from '../apis/availability'
 import { useApi } from '../hooks/useApi'
 import { GuideAvailability } from '../types/guide'
@@ -44,6 +44,11 @@ export const AvailabilitySearch = (props: Props) => {
   } = useApi<GuideAvailability>(getGuideAvailability)
   const { availabilityWeeks, loadAvailabilityWeeks } = useAvailabilityWeeks()
   const { guideList, loadGuideList } = useGuideList()
+  const [errMessage, setErrMessage] = useState('')
+
+  /**
+   * Load guide list & availability weeks from backend when mounted
+   */
   useEffect(() => {
     loadAvailabilityWeeks()
     loadGuideList()
@@ -57,8 +62,34 @@ export const AvailabilitySearch = (props: Props) => {
     onWeekNumberChange(Number(event.target.value))
   }
 
-  const handleLoadAvailability = () => {
-    loadTeachingAvailability(userId, weekNumber)
+  /**
+   * Check if form is valid. If form invalid, an error message is shown
+   */
+  const validateForm = () => {
+    if (!userId) {
+      setErrMessage('Please select guide')
+      return false
+    }
+    if (!weekNumber) {
+      setErrMessage('Please select week number')
+      return false
+    }
+    setErrMessage('')
+    return true
+  }
+
+  const handleViewAvailability = () => {
+    const isValid = validateForm()
+    if (isValid) {
+      loadTeachingAvailability(userId, weekNumber)
+    }
+  }
+
+  const handleUpdateAvailability = () => {
+    const isValid = validateForm()
+    if (isValid) {
+      goToUpdatePage()
+    }
   }
 
   const noTeachingAvailabilityFound =
@@ -93,7 +124,7 @@ export const AvailabilitySearch = (props: Props) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={handleLoadAvailability}
+          onClick={handleViewAvailability}
           className="button"
         >
           View Teaching Availability
@@ -102,11 +133,12 @@ export const AvailabilitySearch = (props: Props) => {
           variant="contained"
           color="primary"
           className="button"
-          onClick={goToUpdatePage}
+          onClick={handleUpdateAvailability}
         >
           Update Teaching Availability
         </Button>
       </Box>
+      {errMessage && <Typography color="red">{errMessage}</Typography>}
       {noTeachingAvailabilityFound && (
         <Typography>No teaching availability data found</Typography>
       )}
