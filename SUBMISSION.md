@@ -14,5 +14,6 @@ Due to time constraints, this app has a lot of limitations, which are:
 
 1. For better experience for older adults, a calendar style for list of teaching availability will be simpler and more intuitive for users
 2. Validation on teaching availability timeslot to not allow duplicated time, or overlapping time, or time outside of certain hours
-3. Better UIs
-4.
+3. UI that have better user experience flow to search for teaching availability, submit teaching availability for a given week
+4. More unit tests to make sure functionality of the app is working as expected
+5. Add more features to make it more useful for users
