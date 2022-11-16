@@ -1,22 +1,26 @@
 .container {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    gap: 8px
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .buttonContainer {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    gap: 20px
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 .button {
-    width: 300px
+  width: 300px;
 }
 
 .linkNav {
-    width: 300px;
-    cursor: pointer
+  width: 300px;
+  cursor: pointer;
+}
+
+.spaceTop {
+  margin-top: 20px;
 }
