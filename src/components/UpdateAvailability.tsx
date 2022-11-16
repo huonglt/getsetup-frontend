@@ -11,13 +11,16 @@ type Props = {
   weekNumber: number
   goToSearchPage: () => void
 }
+
+/**
+ * UI component to update teaching availability
+ */
 export const UpdateAvailability = (props: Props) => {
   const { userId, weekNumber, goToSearchPage } = props
   // error occured on backend when submit teaching availability
   const [submitedError, setSubmitedError] = useState<Error | null>(null)
 
-  const { loadData: submitGuideAvailability } =
-    useApi<unknown>(submitAvailability)
+  const { loadData: submitGuideAvailability } = useApi(submitAvailability)
   const {
     isLoading,
     isError,
