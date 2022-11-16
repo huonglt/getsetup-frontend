@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AvailabilityList match snapshot 1`] = `
+<div>
+  <p
+    class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+  >
+    Teaching Availability for userId 
+    1
+     for the week #
+    1
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+  >
+    Wed Nov 16 2022 8:00 am - 9:00 am
+  </p>
+</div>
+`;
