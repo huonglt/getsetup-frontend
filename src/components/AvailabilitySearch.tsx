@@ -24,6 +24,10 @@ type Props = {
   onUserIdChange: (userId: number) => void
   onWeekNumberChange: (weekNumber: number) => void
 }
+
+/**
+ * UI to search or update teaching availability
+ */
 export const AvailabilitySearch = (props: Props) => {
   const {
     userId,

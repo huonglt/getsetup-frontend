@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 
 /**
- * Validation schema for bedroom arrangement task
- * Support multiples rooms, each room has multiple beds
+ * Validation schema to submit teaching availability
+ * It it an array if {day, from, to}
  */
 const guideAvailabilitySchema = yup.object({
   availability: yup.array().of(

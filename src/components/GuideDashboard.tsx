@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { AvailabilitySearch } from './AvailabilitySearch'
 import { UpdateAvailability } from './UpdateAvailability'
 
+/**
+ * The dashboard UI for teaching availability
+ */
 export const GuideDashboard = () => {
   const [currentPage, setCurrentPage] = useState('search')
   const [userId, setUserId] = useState<number | null>(null)
