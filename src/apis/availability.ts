@@ -50,7 +50,7 @@ export const submitAvailability = async (
       },
       body: JSON.stringify(guideAvailability)
     })
-    return response.json()
+    return await response.json()
   } catch (error) {
     if (error instanceof Error) {
       err = error

@@ -13,7 +13,7 @@ export const getAvailabilityWeeks = async () => {
         'Content-Type': 'application/json'
       }
     })
-    return response.json()
+    return await response.json()
   } catch (error) {
     if (error instanceof Error) {
       err = error
