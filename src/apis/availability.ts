@@ -21,7 +21,6 @@ export const getGuideAvailability = async (
      */
     const data = await response.json()
 
-    // TODO: checking for valid server data
     return data
   } catch (error) {
     // 403 error, network error etc

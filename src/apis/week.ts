@@ -37,7 +37,6 @@ export const getWeekDays = async (weekNumber: number) => {
      */
     const data = await response.json()
 
-    // TODO: checking for valid server data
     return data
   } catch (error) {
     // 403 error, network error etc
